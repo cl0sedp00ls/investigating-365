@@ -1,0 +1,15 @@
+Get-Mailbox -ResultSize Unlimited |
+ForEach-Object {
+    Write-Verbose "Checking $($_.Alias)..." -Verbose
+    $inboxrule = Get-InboxRule -Mailbox $_.Alias -IncludeHidden
+    if ($inboxrule) {
+        foreach ($rule in $inboxrule) {
+            [PSCustomObject]@{
+                Mailbox         = $_.Alias
+                Rulename        = $rule.Name
+                Rulepriority    = $rule.Priority
+                Ruledescription = $rule.Description
+            }
+        }
+    }
+} | Export-Csv -Path "C:\Temp\MailboxRules.csv" -NoTypeInformation -Encoding UTF8
