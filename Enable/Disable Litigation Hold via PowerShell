@@ -1,0 +1,19 @@
+Connect-ExchangeOnline
+
+**Enable Litigation Hold for a Specific User
+
+Set-Mailbox -Identity user@domain.com -LitigationHoldEnabled $True
+
+**Enable Litigation Hold for All Users
+
+Get-Mailbox -ResultSize Unlimited -Filter "RecipientTypeDetails -eq 'UserMailbox'" | Set-Mailbox -LitigationHoldEnabled $true -LitigationHoldDuration 456
+
+**To place all the mailboxes on litigation hold for an infinite time, you can remove the LitigationHoldDuration parameter from the above cmdlet. 
+
+**Disable Litigation Hold Using PowerShell
+
+Set-Mailbox -Identity user@domain.com -LitigationHoldEnabled $False 
+
+**To remove litigation hold from all mailboxes in Exchange Online
+
+Get-Mailbox -ResultSize Unlimited -Filter {RecipientTypeDetails -eq "UserMailbox"} | Set-Mailbox -LitigationHoldEnabled $False 
